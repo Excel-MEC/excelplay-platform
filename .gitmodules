@@ -1,0 +1,12 @@
+[submodule "excelplay-kryptos"]
+	path = excelplay-kryptos
+	url = https://github.com/Excel-MEC/excelplay-kryptos
+[submodule "excelplay-dalalbull"]
+	path = excelplay-dalalbull
+	url = https://github.com/Excel-MEC/excelplay-dalalbull
+[submodule "excelplay-echo"]
+	path = excelplay-echo
+	url = https://github.com/Excel-MEC/excelplay-echo
+[submodule "excelplay-auth"]
+	path = excelplay-auth
+	url = https://github.com/Excel-MEC/excelplay-auth
