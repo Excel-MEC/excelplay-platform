@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+
+        excelplay_auth:
+                build: ./excelplay-auth/excelplay_auth/.
+                command: bash excelplay-auth/docker_entrypoint.sh
+                volumes:
+                        - .:/excelplay/excelplay_auth
+                ports:
+                        - "8000:8000"
+
