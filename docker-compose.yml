@@ -1,17 +1,23 @@
 version: '3'
 
 services:
-
+    
     auth:
         build: ./excelplay-auth/excelplay_auth/.
+        depends_on:
+            - redis
+            - db
         command: bash excelplay-auth/docker_entrypoint.sh
         volumes:
             - .:/excelplay/excelplay_auth
         ports:
             - "8000:8000"
-
+        
     kryptos:
         build: ./excelplay-kryptos/excelplay_kryptos/.
+        depends_on:
+            - redis
+            - db2
         command: bash excelplay-kryptos/docker_entrypoint.sh
         volumes:
             - .:/excelplay/excelplay_kryptos
@@ -19,15 +25,35 @@ services:
             - "8001:8001"
 
     db:
+        container_name: 'db'
         restart: always
         image: postgres:alpine
         expose:
             - '5432'
         volumes:
-            - database:/var/lib/postgresql/data
+            - 'pgdata:/var/lib/postgresql/data'
+
+    db2:
+        container_name: 'db2'
+        restart: always
+        image: postgres:alpine
+        expose:
+            - "5433"
+        ports:
+            - "5433:5432"
+        volumes:
+            - 'pgdata2:/var/lib/postgresql/data'
+ 
     
+    redis:
+        container_name: 'redis'
+        restart: always
+        image: redis
+        command: redis-server
+        volumes:
+            - 'redisdata:/data'
 
 volumes:
-    database:
-    static:
-    media:
+    pgdata2:
+    pgdata:
+    redisdata:
