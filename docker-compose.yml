@@ -1,6 +1,10 @@
 version: '3'
 
 services:
+        db:
+                image: postgres
+                ports:
+                    - "5432:5432"
 
         excelplay_auth:
                 build: ./excelplay-auth/excelplay_auth/.
@@ -9,4 +13,12 @@ services:
                         - .:/excelplay/excelplay_auth
                 ports:
                         - "8000:8000"
-
+        
+         
+        excelplay_kryptos:
+                build: ./excelplay-kryptos/excelplay_kryptos/.
+                command: bash excelplay-kryptos/
+                volumes:
+                        - .:/excelplay/excelplay_kryptos
+                ports:
+                        - "8002:8002"
