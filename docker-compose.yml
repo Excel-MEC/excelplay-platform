@@ -1,8 +1,8 @@
-version: '4'
+version: '3'
 
 services:
 
-    excelplay_auth:
+    auth:
         build: ./excelplay-auth/excelplay_auth/.
         command: bash excelplay-auth/docker_entrypoint.sh
         volumes:
@@ -10,11 +10,17 @@ services:
         ports:
             - "8000:8000"
 
+    kryptos:
+        build: ./excelplay-kryptos/excelplay_kryptos/.
+        command: bash excelplay-kryptos/docker_entrypoint.sh
+        volumes:
+            - .:/excelplay/excelplay_kryptos
+        ports:
+            - "8001:8001"
+
     db:
         restart: always
         image: postgres:alpine
-        env_file:
-            - env
         expose:
             - '5432'
         volumes:
