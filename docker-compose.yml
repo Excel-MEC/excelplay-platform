@@ -10,11 +10,12 @@ services:
         volumes:
             - ./nginx.conf:/etc/nginx/conf.d/default.conf
             - ./excelplay-client/dist/excelplay/:/usr/share/nginx/html/
+            - ./static:/var/www/static/
         depends_on:
-            - auth
+            - auth1
             - kryptos
     
-    auth:
+    auth1:
         build: ./excelplay-auth/excelplay_auth/.
         depends_on:
             - redis
@@ -33,6 +34,7 @@ services:
         command: bash excelplay-kryptos/docker_entrypoint.sh
         volumes:
             - .:/excelplay/excelplay_kryptos
+            - 'staticdata:/excelplay/excelplay_kryptos/excelplay-kryptos/excelplay_kryptos/static'
         ports:
             - "8001:8001"
 
@@ -69,3 +71,4 @@ volumes:
     pgdata2:
     pgdata:
     redisdata:
+    staticdata:
