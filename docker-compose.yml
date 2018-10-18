@@ -26,6 +26,8 @@ services:
             - .:/excelplay/excelplay_auth
         ports:
             - "8000:8000"
+        environment
+            - secret_key=$secret_key
         
     kryptos:
         build: ./excelplay-kryptos/excelplay_kryptos/.
@@ -38,6 +40,9 @@ services:
             - 'staticdata:/excelplay/excelplay_kryptos/excelplay-kryptos/excelplay_kryptos/static'
         ports:
             - "8001:8001"
+            
+        environment
+            - secret_key=$secret_key
 
     db:
         container_name: 'db'
