@@ -10,6 +10,3 @@
 [submodule "excelplay-auth"]
 	path = excelplay-auth
 	url = https://github.com/Excel-MEC/excelplay-auth
-[submodule "excel-play-2018"]
-	path = excel-play-2018
-	url = https://github.com/thezillion/excel-play-2018.git
