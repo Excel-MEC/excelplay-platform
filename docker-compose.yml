@@ -26,7 +26,7 @@ services:
             - .:/excelplay/excelplay_auth
         ports:
             - "8000:8000"
-        environment
+        environment:
             - secret_key=$secret_key
         
     kryptos:
@@ -41,7 +41,7 @@ services:
         ports:
             - "8001:8001"
             
-        environment
+        environment:
             - secret_key=$secret_key
 
     db:
