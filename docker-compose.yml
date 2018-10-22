@@ -97,5 +97,6 @@ services:
 volumes:
     pgdata2:
     pgdata:
+    pgdata2:    
     redisdata:
     staticdata:
