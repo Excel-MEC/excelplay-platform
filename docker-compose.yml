@@ -54,7 +54,7 @@ services:
         volumes:
             - .:/excelplay/excelplay_dalalbull
         ports:
-            -"8002:8002"
+            - "8002:8002"
 
     db:
         container_name: 'db'
