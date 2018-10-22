@@ -15,6 +15,7 @@ services:
         depends_on:
             - auth1
             - kryptos
+            - dalalbull
     
     auth1:
         build: ./excelplay-auth/excelplay_auth/.
@@ -44,6 +45,17 @@ services:
         environment:
             - secret_key=$secret_key
 
+    dalalbull:
+        build:./excelplay-dalalbull/excelplay_dalalbull/.
+        depends_on:
+            - redis
+            - db3
+        command: bash excelplay-dalalbull/docker_entrypoint.sh && bash excelplay-dalalbull/task.sh
+        volumes:
+            - .:/excelplay/excelplay_dalalbull
+        ports:
+            -"8002:8002"
+
     db:
         container_name: 'db'
         restart: always
@@ -64,7 +76,16 @@ services:
         volumes:
             - 'pgdata2:/var/lib/postgresql/data'
  
-    
+    db3:
+        container_name: 'db3'
+        restart: always
+        image: postgres:alpine
+        expose:
+            -"5434"
+        ports:
+            -"5434:5432"
+        volumes:
+            -'pgdata3:/var/lib/postgresql/data'    
     redis:
         container_name: 'redis'
         restart: always
