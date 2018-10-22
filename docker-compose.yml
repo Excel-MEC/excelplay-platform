@@ -46,7 +46,7 @@ services:
             - secret_key=$secret_key
 
     dalalbull:
-        build:./excelplay-dalalbull/excelplay_dalalbull/.
+        build: ./excelplay-dalalbull/excelplay_dalalbull/.
         depends_on:
             - redis
             - db3
