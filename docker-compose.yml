@@ -50,7 +50,7 @@ services:
         depends_on:
             - redis
             - db3
-            - redis2
+   
         command: bash excelplay-dalalbull/docker_entrypoint.sh && bash excelplay-dalalbull/task.sh
         volumes:
             - .:/excelplay/excelplay_dalalbull
@@ -59,7 +59,7 @@ services:
 
     worker:
         build: ./excelplay-dalalbull/excelplay_dalalbull/.
-        command: python manage.py runworker
+        command: python excelplay-dalalbull/excelplay_dalalbull/manage.py runworker LeaderBoard Portfolio nifty_channel graph_data_channel ticker_data_channel sell_channel
         volumes:
             - .:/excelplay/excelplay_dalalbull
         ports:
@@ -96,38 +96,31 @@ services:
         ports:
             - "5434:5432"
         volumes:
-            - 'pgdata3:/var/lib/postgresql/data'    
+            - 'pgdata3:/var/lib/postgresql/data'
     
     redis:
         container_name: 'redis'
         restart: always
         image: redis
         command: redis-server
-        expose:
-            - "6379"
-        ports:
-            - "6379:6379"
         volumes:
             - 'redisdata:/data'
 
-    redis2:
-        container_name: 'redis2'
-        restart: always
-        image: redis
-        command: redis-server
-        expose:
-            - "6378"
-        ports:
-           - "6378:6379"
-        volumes:
-            - 'redisdata2:/data'
+ #   redis2:
+ #       container_name: 'redis2'
+ #       restart: always
+ #       image: redis
+ #       command: redis-server --port 6378
+ #       volumes:
+ #           - 'redisdata2:/data'
 
 
 
 volumes:
     pgdata2:
     pgdata:
-    pgdata3:    
+    pgdata3:
     redisdata:
     staticdata:
-    redisdata2:
+#    redisdata2:
+
