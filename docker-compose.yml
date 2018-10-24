@@ -56,6 +56,16 @@ services:
         ports:
             - "8002:8002"
 
+    worker:
+        build: ./excelplay-dalalbull/excelplay_dalalbull/.
+        command: python manage.py runworker
+        volumes:
+            - .:/excelplay/excelplay_dalalbull
+        ports:
+            - "8003:8003"
+        depends_on:
+            - dalalbull
+
     db:
         container_name: 'db'
         restart: always
