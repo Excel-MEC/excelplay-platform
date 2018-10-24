@@ -56,7 +56,18 @@ services:
             - .:/excelplay/excelplay_dalalbull
         ports:
             - "8002:8002"
-
+    
+    echo:
+        build: ./excelplay-echo/excelplay_echo/.
+        depends_on:
+            - db4
+        command: python /excelplay-echo/excelplay_echo/excelplay_echo/manage.py migrate --noinput
+        command: python /excelplay-echo/excelplay_echo/excelplay_echo/manage.py runserver
+        volumes:
+            - .:/excelplay/excelplay_echo/
+        ports:
+            - "8010:8010"
+         
     worker:
         build: ./excelplay-dalalbull/excelplay_dalalbull/.
         command: python excelplay-dalalbull/excelplay_dalalbull/manage.py runworker LeaderBoard Portfolio nifty_channel graph_data_channel ticker_data_channel sell_channel && 
@@ -97,7 +108,18 @@ services:
             - "5434:5432"
         volumes:
             - 'pgdata3:/var/lib/postgresql/data'
-    
+
+    db4:
+        container_name: 'db4'
+        restart: always
+        image: postgres:alpine
+        expose:
+            - "5435"
+        ports:
+            "5435:5435"
+        volumes:
+            - 'pgdata4:/var/lib/postgresql/data'
+            
     redis:
         container_name: 'redis'
         restart: always
@@ -122,5 +144,6 @@ volumes:
     pgdata3:
     redisdata:
     staticdata:
+    pgdata4:
 #    redisdata2:
 
