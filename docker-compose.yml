@@ -50,6 +50,7 @@ services:
         depends_on:
             - redis
             - db3
+            - redis2
         command: bash excelplay-dalalbull/docker_entrypoint.sh && bash excelplay-dalalbull/task.sh
         volumes:
             - .:/excelplay/excelplay_dalalbull
