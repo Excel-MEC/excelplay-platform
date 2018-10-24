@@ -59,7 +59,7 @@ services:
 
     worker:
         build: ./excelplay-dalalbull/excelplay_dalalbull/.
-        command: python excelplay-dalalbull/excelplay_dalalbull/manage.py runworker LeaderBoard Portfolio nifty_channel graph_data_channel ticker_data_channel sell_channel
+        command: python excelplay-dalalbull/excelplay_dalalbull/manage.py runworker LeaderBoard Portfolio nifty_channel graph_data_channel ticker_data_channel sell_channel && 
         volumes:
             - .:/excelplay/excelplay_dalalbull
         ports:
