@@ -51,21 +51,12 @@ services:
             - redis
             - db3
    
-        command: bash excelplay-dalalbull/docker_entrypoint.sh && bash excelplay-dalalbull/task.sh
+        command: bash excelplay-dalalbull/docker_entrypoint.sh && bash excelplay-dalalbull/daphne.sh
         volumes:
             - .:/excelplay/excelplay_dalalbull
         ports:
             - "8002:8002"
-
-    worker:
-        build: ./excelplay-dalalbull/excelplay_dalalbull/.
-        command: python excelplay-dalalbull/excelplay_dalalbull/manage.py runworker LeaderBoard Portfolio nifty_channel graph_data_channel ticker_data_channel sell_channel && 
-        volumes:
-            - .:/excelplay/excelplay_dalalbull
-        ports:
             - "8003:8003"
-        depends_on:
-            - dalalbull
 
     db:
         container_name: 'db'
