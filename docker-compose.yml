@@ -133,7 +133,7 @@ services:
         expose:
             - "5435"
         ports:
-            "5435:5435"
+            - "5435:5435"
         volumes:
             - 'pgdata4:/var/lib/postgresql/data'
             
