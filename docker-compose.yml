@@ -17,6 +17,7 @@ services:
             - kryptos
             - dalalbull
             - dalalbulldaphne
+            # - echo
     
     auth1:
         build: ./excelplay-auth/excelplay_auth/.
@@ -59,21 +60,6 @@ services:
         ports:
             - "8002:8002"
     
-    echo:
-        build: ./excelplay-echo/excelplay_echo/.
-        depends_on:
-            - db4
-        command: python /excelplay-echo/excelplay_echo/excelplay_echo/manage.py migrate --noinput
-        command: python /excelplay-echo/excelplay_echo/excelplay_echo/manage.py runserver
-        volumes:
-            - .:/excelplay/excelplay_echo/
-        ports:
-            - "8010:8010"
-         
-    worker:
-        build: ./excelplay-dalalbull/excelplay_dalalbull/.
-        command: python excelplay-dalalbull/excelplay_dalalbull/manage.py runworker LeaderBoard Portfolio nifty_channel graph_data_channel ticker_data_channel sell_channel && 
-
     dalalbulldaphne:
         build: ./excelplay-dalalbull/excelplay_dalalbull/.
         depends_on:
@@ -94,6 +80,17 @@ services:
         command: bash excelplay-dalalbull/runcelery.sh
         volumes:
             - .:/excelplay/excelplay_dalalbull
+
+    # echo:
+    #     build: ./excelplay-echo/excelplay_echo/.
+    #     depends_on:
+    #         - db4
+    #     command: python /excelplay-echo/excelplay_echo/excelplay_echo/manage.py migrate --noinput
+    #     command: python /excelplay-echo/excelplay_echo/excelplay_echo/manage.py runserver
+    #     volumes:
+    #         - .:/excelplay/excelplay_echo/
+    #     ports:
+    #         - "8010:8010"
 
     db:
         container_name: 'db'
@@ -133,7 +130,7 @@ services:
         expose:
             - "5435"
         ports:
-            "5435:5435"
+            - "5435:5435"
         volumes:
             - 'pgdata4:/var/lib/postgresql/data'
             
