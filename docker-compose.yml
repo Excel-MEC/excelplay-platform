@@ -51,7 +51,7 @@ services:
             - redis
             - db3
    
-        command: bash excelplay-dalalbull/docker_entrypoint.sh && bash excelplay-dalalbull/task.sh
+        command: bash excelplay-dalalbull/docker_entrypoint.sh && bash excelplay-dalalbull/daphne.sh
         volumes:
             - .:/excelplay/excelplay_dalalbull
         ports:
@@ -75,8 +75,6 @@ services:
             - .:/excelplay/excelplay_dalalbull
         ports:
             - "8003:8003"
-        depends_on:
-            - dalalbull
 
     db:
         container_name: 'db'
