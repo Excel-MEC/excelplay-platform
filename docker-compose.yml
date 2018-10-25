@@ -16,6 +16,7 @@ services:
             - auth1
             - kryptos
             - dalalbull
+            - dalalbulldaphne
     
     auth1:
         build: ./excelplay-auth/excelplay_auth/.
@@ -51,12 +52,33 @@ services:
             - redis
             - db3
    
-        command: bash excelplay-dalalbull/docker_entrypoint.sh && bash excelplay-dalalbull/daphne.sh
+        command: bash excelplay-dalalbull/docker_entrypoint.sh
+
         volumes:
             - .:/excelplay/excelplay_dalalbull
         ports:
             - "8002:8002"
+
+    dalalbulldaphne:
+        build: ./excelplay-dalalbull/excelplay_dalalbull/.
+        depends_on:
+            - dalalbull
+
+        command: bash excelplay-dalalbull/rundaphne.sh
+        volumes:
+            - .:/excelplay/excelplay_dalalbull
+        ports:
             - "8003:8003"
+
+    dalalbullcelery:
+        build: ./excelplay-dalalbull/excelplay_dalalbull/.
+        depends_on:
+            - dalalbull
+            - dalalbulldaphne
+
+        command: bash excelplay-dalalbull/runcelery.sh
+        volumes:
+            - .:/excelplay/excelplay_dalalbull
 
     db:
         container_name: 'db'
