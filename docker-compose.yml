@@ -17,7 +17,7 @@ services:
             - kryptos
             - dalalbull
             - dalalbulldaphne
-            # - echo
+            - echo
     
     auth1:
         build: ./excelplay-auth/excelplay_auth/.
@@ -81,16 +81,16 @@ services:
         volumes:
             - .:/excelplay/excelplay_dalalbull
 
-    # echo:
-    #     build: ./excelplay-echo/excelplay_echo/.
-    #     depends_on:
-    #         - db4
-    #     command: python /excelplay-echo/excelplay_echo/excelplay_echo/manage.py migrate --noinput
-    #     command: python /excelplay-echo/excelplay_echo/excelplay_echo/manage.py runserver
-    #     volumes:
-    #         - .:/excelplay/excelplay_echo/
-    #     ports:
-    #         - "8010:8010"
+    echo:
+        build: ./excelplay-echo/excelplay_echo/.
+        depends_on:
+            - redis
+            - db4
+        command: bash excelplay-echo/
+        volumes:
+            - .:/excelplay/excelplay_echo/docker_entrypoint.sh
+        ports:
+            - "8003:8003"
 
     db:
         container_name: 'db'
