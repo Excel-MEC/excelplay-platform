@@ -86,11 +86,11 @@ services:
         depends_on:
             - redis
             - db4
-        command: bash excelplay-echo/
+        command: bash excelplay-echo/docker_entrypoint.sh
         volumes:
-            - .:/excelplay/excelplay_echo/docker_entrypoint.sh
+            - .:/excelplay/excelplay_echo/
         ports:
-            - "8003:8003"
+            - "8004:8004"
 
     db:
         container_name: 'db'
