@@ -1,0 +1,9 @@
+1) dalalbull celery
+    dependency issue: https://github.com/celery/celery/issues/5369
+    temporary fix
+    pip install kombu==4.3.0 in runcelery.sh file
+
+2) dalalbull daphne
+    dependency issue: https://github.com/django/daphne/issues/256
+    temporary fix
+    pip install channels daphne==2.2.5 in rundaphne.sh file
