@@ -17,7 +17,6 @@ services:
             - kryptos
             - dalalbull
             - dalalbulldaphne
-            - echo
     
     auth1:
         build: ./excelplay-auth/excelplay_auth/.
@@ -80,17 +79,6 @@ services:
         command: bash excelplay-dalalbull/runcelery.sh
         volumes:
             - .:/excelplay/excelplay_dalalbull
-
-    echo:
-        build: ./excelplay-echo/excelplay_echo/.
-        depends_on:
-            - redis
-            - db4
-        command: bash excelplay-echo/docker_entrypoint.sh
-        volumes:
-            - .:/excelplay/excelplay_echo/
-        ports:
-            - "8004:8004"
 
     db:
         container_name: 'db'
