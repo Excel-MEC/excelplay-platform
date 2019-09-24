@@ -13,3 +13,6 @@
 [submodule "excelplay-client"]
 	path = excelplay-client
 	url = https://github.com/Excel-MEC/excelplay-client
+[submodule "ExcelPlay-2019"]
+	path = ExcelPlay-2019
+	url = http://github.com/Excel-MEC/ExcelPlay-2019.git
