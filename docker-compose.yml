@@ -17,7 +17,19 @@ services:
             - kryptos
             - dalalbull
             - dalalbulldaphne
-    
+            - frontend
+
+    frontend:
+        build:
+            context: ./ExcelPlay-2019/
+        command: yarn start
+        volumes:
+            - ./ExcelPlay-2019/:/app
+            - /app/node_modules
+        ports:
+            - "3000:3000"
+
+
     auth1:
         build: ./excelplay-auth/excelplay_auth/.
         depends_on:
