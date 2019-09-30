@@ -40,8 +40,6 @@ services:
             - .:/excelplay/excelplay_auth
         ports:
             - "8000:8000"
-        environment:
-            - secret_key=$secret_key
         
     kryptos:
         build: ./excelplay-kryptos/excelplay_kryptos/.
@@ -55,8 +53,6 @@ services:
         ports:
             - "8001:8001"
             
-        environment:
-            - secret_key=$secret_key
 
     dalalbull:
         build: ./excelplay-dalalbull/excelplay_dalalbull/.
