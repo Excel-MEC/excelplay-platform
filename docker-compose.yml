@@ -25,7 +25,6 @@ services:
         command: yarn start
         volumes:
             - ./ExcelPlay-2019/:/app
-            - /app/node_modules
         ports:
             - "3000:3000"
 
