@@ -9,7 +9,7 @@ services:
             - "80:80"
         volumes:
             - ./nginx.conf:/etc/nginx/conf.d/default.conf
-            - ./excelplay-client/dist/excelplay/:/usr/share/nginx/html/
+            - ./ExcelPlay-2019/build/:/usr/share/nginx/html/
             - ./static:/var/www/static/
             - ./media:/var/www/media/
         depends_on:
@@ -17,16 +17,15 @@ services:
             - kryptos
             - dalalbull
             - dalalbulldaphne
-            - frontend
 
-    frontend:
-        build:
-            context: ./ExcelPlay-2019/
-        command: yarn start
-        volumes:
-            - ./ExcelPlay-2019/:/app
-        ports:
-            - "3000:3000"
+    # frontend:
+    #     build:
+    #         context: ./ExcelPlay-2019/
+    #     command: yarn start
+    #     volumes:
+    #         - ./ExcelPlay-2019/:/app
+    #     ports:
+    #         - "3000:3000"
 
     auth1:
         build: ./excelplay-auth/excelplay_auth/.
