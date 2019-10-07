@@ -12,6 +12,7 @@ services:
             - ./ExcelPlay-2019/build/:/usr/share/nginx/html/
             - ./static:/var/www/static/
             - ./media:/var/www/media/
+            - ./excelplay-kryptos/excelplay_kryptos/media/:/var/www/media/kryptos_media
         depends_on:
             - auth1
             - kryptos
