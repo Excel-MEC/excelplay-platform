@@ -1,144 +1,167 @@
-version: '3'
+version: "3"
 
 services:
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./ExcelPlay-2019/build/:/usr/share/nginx/html/
+      - ./static:/var/www/static/
+      - ./media:/var/www/media/
+      - ./excelplay-kryptos/excelplay_kryptos/media/:/var/www/media/kryptos_media/media/
+    depends_on:
+      - auth1
+      - kryptos
+      - circuimstance
+      - dalalbull
+      - dalalbulldaphne
 
-    nginx:
-        image: nginx:latest
-        container_name: nginx
-        ports:
-            - "80:80"
-        volumes:
-            - ./nginx.conf:/etc/nginx/conf.d/default.conf
-            - ./ExcelPlay-2019/build/:/usr/share/nginx/html/
-            - ./static:/var/www/static/
-            - ./media:/var/www/media/
-            - ./excelplay-kryptos/excelplay_kryptos/media/:/var/www/media/kryptos_media/media/
-        depends_on:
-            - auth1
-            - kryptos
-            - dalalbull
-            - dalalbulldaphne
+  # frontend:
+  #     build:
+  #         context: ./ExcelPlay-2019/
+  #     command: yarn start
+  #     volumes:
+  #         - ./ExcelPlay-2019/:/app
+  #     ports:
+  #         - "3000:3000"
 
-    # frontend:
-    #     build:
-    #         context: ./ExcelPlay-2019/
-    #     command: yarn start
-    #     volumes:
-    #         - ./ExcelPlay-2019/:/app
-    #     ports:
-    #         - "3000:3000"
+  auth1:
+    build: ./excelplay-auth/excelplay_auth/.
+    depends_on:
+      - redis
+      - db
+    command: bash excelplay-auth/docker_entrypoint.sh
+    volumes:
+      - .:/excelplay/excelplay_auth
+    ports:
+      - "8000:8000"
 
-    auth1:
-        build: ./excelplay-auth/excelplay_auth/.
-        depends_on:
-            - redis
-            - db
-        command: bash excelplay-auth/docker_entrypoint.sh
-        volumes:
-            - .:/excelplay/excelplay_auth
-        ports:
-            - "8000:8000"
-        
-    kryptos:
-        build: ./excelplay-kryptos/excelplay_kryptos/.
-        depends_on:
-            - redis
-            - db2
-        command: bash excelplay-kryptos/docker_entrypoint.sh
-        volumes:
-            - .:/excelplay/excelplay_kryptos
-            - 'staticdata:/excelplay/excelplay_kryptos/excelplay-kryptos/excelplay_kryptos/static'
-        ports:
-            - "8001:8001"
+  kryptos:
+    build: ./excelplay-kryptos/excelplay_kryptos/.
+    depends_on:
+      - redis
+      - db2
+    command: bash excelplay-kryptos/docker_entrypoint.sh
+    volumes:
+      - .:/excelplay/excelplay_kryptos
+      - "staticdata:/excelplay/excelplay_kryptos/excelplay-kryptos/excelplay_kryptos/static"
+    ports:
+      - "8001:8001"
+  circuimstance:
+    build: ./excelplay-circuimstance/excelplay_circuimstance/.
+    depends_on:
+      - redis
+      - db5
+    command: bash excelplay-circuimstance/docker_entrypoint.sh
+    volumes:
+      - .:/excelplay/excelplay-circuimstance
+      - "staticdata:/excelplay/excelplay_circuimstance/excelplay-circuimstance/excelplay_circuimstance/static"
+    ports:
+      - "8004:8004"
 
-    dalalbull:
-        build: ./excelplay-dalalbull/excelplay_dalalbull/.
-        depends_on:
-            - redis
-            - db3
-   
-        command: bash excelplay-dalalbull/docker_entrypoint.sh
+  dalalbull:
+    build: ./excelplay-dalalbull/excelplay_dalalbull/.
+    depends_on:
+      - redis
+      - db3
 
-        volumes:
-            - .:/excelplay/excelplay_dalalbull
-        ports:
-            - "8002:8002"
-    
-    dalalbulldaphne:
-        build: ./excelplay-dalalbull/excelplay_dalalbull/.
-        depends_on:
-            - dalalbull
+    command: bash excelplay-dalalbull/docker_entrypoint.sh
 
-        command: bash excelplay-dalalbull/rundaphne.sh
-        volumes:
-            - .:/excelplay/excelplay_dalalbull
-        ports:
-            - "8003:8003"
+    volumes:
+      - .:/excelplay/excelplay_dalalbull
+    ports:
+      - "8002:8002"
 
-    dalalbullcelery:
-        build: ./excelplay-dalalbull/excelplay_dalalbull/.
-        depends_on:
-            - dalalbull
-            - dalalbulldaphne
+  dalalbulldaphne:
+    build: ./excelplay-dalalbull/excelplay_dalalbull/.
+    depends_on:
+      - dalalbull
 
-        command: bash excelplay-dalalbull/runcelery.sh
-        volumes:
-            - .:/excelplay/excelplay_dalalbull
+    command: bash excelplay-dalalbull/rundaphne.sh
+    volumes:
+      - .:/excelplay/excelplay_dalalbull
+    ports:
+      - "8003:8003"
 
-    db:
-        container_name: 'db'
-        restart: always
-        image: postgres:alpine
-        expose:
-            - '5432'
-        volumes:
-            - 'pgdata:/var/lib/postgresql/data'
+  dalalbullcelery:
+    build: ./excelplay-dalalbull/excelplay_dalalbull/.
+    depends_on:
+      - dalalbull
+      - dalalbulldaphne
 
-    db2:
-        container_name: 'db2'
-        restart: always
-        image: postgres:alpine
-        expose:
-            - "5433"
-        ports:
-            - "5433:5432"
-        volumes:
-            - 'pgdata2:/var/lib/postgresql/data'
- 
-    db3:
-        container_name: 'db3'
-        restart: always
-        image: postgres:alpine
-        expose:
-            - "5434"
-        ports:
-            - "5434:5432"
-        volumes:
-            - 'pgdata3:/var/lib/postgresql/data'
+    command: bash excelplay-dalalbull/runcelery.sh
+    volumes:
+      - .:/excelplay/excelplay_dalalbull
 
-    db4:
-        container_name: 'db4'
-        restart: always
-        image: postgres:alpine
-        expose:
-            - "5435"
-        ports:
-            - "5435:5435"
-        volumes:
-            - 'pgdata4:/var/lib/postgresql/data'
-            
-    redis:
-        container_name: 'redis'
-        restart: always
-        image: redis
-        command: redis-server
-        volumes:
-            - 'redisdata:/data'
+  db:
+    container_name: "db"
+    restart: always
+    image: postgres:alpine
+    expose:
+      - "5432"
+    volumes:
+      - "pgdata:/var/lib/postgresql/data"
+
+  db2:
+    container_name: "db2"
+    restart: always
+    image: postgres:alpine
+    expose:
+      - "5433"
+    ports:
+      - "5433:5432"
+    volumes:
+      - "pgdata2:/var/lib/postgresql/data"
+
+  db3:
+    container_name: "db3"
+    restart: always
+    image: postgres:alpine
+    expose:
+      - "5434"
+    ports:
+      - "5434:5432"
+    volumes:
+      - "pgdata3:/var/lib/postgresql/data"
+
+  db4:
+    container_name: "db4"
+    restart: always
+    image: postgres:alpine
+    expose:
+      - "5435"
+    ports:
+      - "5435:5435"
+    volumes:
+      - "pgdata4:/var/lib/postgresql/data"
+
+  db5:
+    container_name: "db5"
+    restart: always
+    image: postgres:alpine
+    expose:
+      - "5436"
+    ports:
+      - "5436:5436"
+    volumes:
+      - "pgdata5:/var/lib/postgresql/data"
+
+  redis:
+    container_name: "redis"
+    restart: always
+    image: redis
+    command: redis-server
+    volumes:
+      - "redisdata:/data"
 
 volumes:
-    pgdata2:
-    pgdata:
-    pgdata3:
-    redisdata:
-    staticdata:
-    pgdata4:
+  pgdata2:
+  pgdata:
+  pgdata3:
+  redisdata:
+  staticdata:
+  pgdata4:
+  pgdata5:
