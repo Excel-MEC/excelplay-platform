@@ -12,6 +12,7 @@ services:
       - ./static:/var/www/static/
       - ./media:/var/www/media/
       - ./excelplay-kryptos/excelplay_kryptos/media/:/var/www/media/kryptos_media/media/
+      - ./excelplay-circuimstance/excelplay_circuimstance/media/:/var/www/media/circuimstance_media/media/
     depends_on:
       - auth1
       - kryptos
@@ -19,14 +20,14 @@ services:
       - dalalbull
       - dalalbulldaphne
 
-  # frontend:
-  #     build:
-  #         context: ./ExcelPlay-2019/
-  #     command: yarn start
-  #     volumes:
-  #         - ./ExcelPlay-2019/:/app
-  #     ports:
-  #         - "3000:3000"
+  frontend:
+    build:
+      context: ./ExcelPlay-2019/
+    command: yarn start
+    volumes:
+      - ./ExcelPlay-2019/:/app
+    ports:
+      - "3000:3000"
 
   auth1:
     build: ./excelplay-auth/excelplay_auth/.
@@ -50,6 +51,7 @@ services:
       - "staticdata:/excelplay/excelplay_kryptos/excelplay-kryptos/excelplay_kryptos/static"
     ports:
       - "8001:8001"
+
   circuimstance:
     build: ./excelplay-circuimstance/excelplay_circuimstance/.
     depends_on:
@@ -57,7 +59,7 @@ services:
       - db5
     command: bash excelplay-circuimstance/docker_entrypoint.sh
     volumes:
-      - .:/excelplay/excelplay-circuimstance
+      - .:/excelplay/excelplay_circuimstance
       - "staticdata:/excelplay/excelplay_circuimstance/excelplay-circuimstance/excelplay_circuimstance/static"
     ports:
       - "8004:8004"
@@ -145,7 +147,7 @@ services:
     expose:
       - "5436"
     ports:
-      - "5436:5436"
+      - "5436:5432"
     volumes:
       - "pgdata5:/var/lib/postgresql/data"
 
