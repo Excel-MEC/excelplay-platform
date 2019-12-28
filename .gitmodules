@@ -16,3 +16,6 @@
 [submodule "ExcelPlay-2019"]
 	path = ExcelPlay-2019
 	url = http://github.com/Excel-MEC/ExcelPlay-2019.git
+[submodule "excelplay-circuimstance"]
+	path = excelplay-circuimstance
+	url = https://github.com/excel-mec/excelplay-circuimstance
